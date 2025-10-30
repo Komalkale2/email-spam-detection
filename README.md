@@ -191,5 +191,3 @@ python spam_detector.py
 ## 🏁 Conclusion
 
 This project demonstrates how **Machine Learning and NLP** techniques can effectively classify email messages as **Spam or Ham** with high accuracy, providing a foundation for real-world spam filtering systems.
-
-```
