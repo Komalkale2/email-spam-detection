@@ -1,166 +1,200 @@
 
-# 📧 Email Spam Detection 
+# 📧 Spam Mail Detection 
 
-This project aims to detect whether a given **email or SMS message** is *Spam* or *Not Spam* using **Natural Language Processing (NLP)** and **Machine Learning**.  
-It uses **TF-IDF vectorization** with a **Naive Bayes classifier** to analyze text and accurately classify messages.
-
----
-
-## 🧠 Overview
-
-Spam detection is one of the most common text classification problems.  
-In this project, we build a model that automatically identifies spam messages using text processing, feature extraction, and machine learning.
-
-The goal is to:
-- Clean and preprocess text messages  
-- Extract features using **TF-IDF (Term Frequency–Inverse Document Frequency)**  
-- Train a **Naive Bayes** model  
-- Predict and evaluate the accuracy on unseen messages  
+This project is a **Spam Mail Detection System** built using **Python** and **Machine Learning**.  
+It classifies email messages as **Spam** or **Ham (Not Spam)** using Natural Language Processing (NLP) techniques and supervised learning algorithms.
 
 ---
 
-## 📂 Dataset
-
-- **Dataset Name:** SMS Spam Collection Dataset  
-- **Source:** [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/sms+spam+collection)  
-- **Alternate Download Link:** [Google Drive](https://drive.google.com/file/d/1CsT32kpqY1cnz4h38OzDtBmr6-avTTiH/view?usp=sharing)  
-
-**Dataset Details:**
-- Total Messages: 5,574  
-- Columns:
-  - `label` — "spam" or "ham" (non-spam)  
-  - `message` — the SMS or email text  
-
----
-
-## ⚙️ Technologies Used
-
-- **Programming Language:** Python  
-- **Libraries & Tools:**
-  - pandas  
-  - numpy  
-  - scikit-learn  
-  - nltk  
-  - matplotlib  
-  - wordcloud  
-
----
-
-## 🧩 Project Structure
+## 🚀 Project Structure
 
 ```
 
-email-spam-detection/
+spam_detector/
 │
-├── dataset/
-│   └── spam.csv
-│
-├── notebook/
-│   └── email_spam_detection.ipynb
-│
-├── src/
-│   └── spam_detector.py
-│
-├── requirements.txt
-└── README.md
+├── spam_detector.py       # Main script with training, visualization, and model evaluation
+├── requirements.txt       # All dependencies required for the project
+├── README.md              # Project documentation
 
 ````
 
 ---
 
-## 🚀 Installation & Setup Guide
+## 🧠 Objective
 
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/Komalkale2/email-spam-detection.git
-cd email-spam-detection
+To develop a model that automatically detects whether an email is **spam** or **not spam**, helping filter unwanted or fraudulent messages effectively.
+
+---
+
+## 📂 Dataset Information
+
+The dataset used for this project contains SMS messages labeled as **spam** or **ham**.
+
+**Dataset Link:** [Download CSV from Google Drive](https://drive.google.com/uc?id=1CsT32kpqY1cnz4h38OzDtBmr6-avTTiH)
+
+| Column Name | Description |
+|--------------|--------------|
+| `v1` | Label (`spam` / `ham`) |
+| `v2` | The text message content |
+
+---
+
+## ⚙️ Steps Involved
+
+### 1️⃣ Import Libraries & Load Dataset
+Load and inspect the dataset.
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import string
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 ````
 
-### 2️⃣ Install Required Libraries
+---
+
+### 2️⃣ Data Cleaning & Preprocessing
+
+* Convert text to lowercase
+* Remove punctuation and stopwords
+* Tokenize messages
+* Label encode spam/ham
+
+---
+
+### 3️⃣ Data Visualization
+
+Visualizations provide insights into dataset distribution and characteristics.
+
+```python
+sns.countplot(data=df, x='label')
+plt.title("Spam vs Ham Message Distribution")
+plt.show()
+
+df['length'] = df['message'].apply(len)
+sns.histplot(df[df['label']=='ham']['length'], color='green', label='Ham', bins=50)
+sns.histplot(df[df['label']=='spam']['length'], color='red', label='Spam', bins=50)
+plt.legend()
+plt.title("Message Length Distribution")
+plt.show()
+```
+
+---
+
+## 🧩 Model Building Process
+
+### ➤ Step 1: Vectorization
+
+Text is converted into numerical form using **CountVectorizer**.
+
+### ➤ Step 2: Model Training
+
+Model used: **Multinomial Naive Bayes**
+
+### ➤ Step 3: Model Evaluation
+
+The model is evaluated using accuracy, precision, recall, and F1-score.
+
+```python
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
+cv = CountVectorizer()
+x_train_cv = cv.fit_transform(x_train)
+model = MultinomialNB()
+model.fit(x_train_cv, y_train)
+predictions = model.predict(cv.transform(x_test))
+```
+
+---
+
+## 📊 Results & Performance
+
+| Metric    | Score |
+| --------- | ----- |
+| Accuracy  | ~98%  |
+| Precision | High  |
+| Recall    | High  |
+
+---
+
+## 🖼️ Screenshots
+
+### 📈 Spam vs Ham Distribution
+
+<img src="https://drive.google.com/uc?export=view&id=1XE8zFob0oQyFeZOzEwbd9c3XoqzjdndZ" width="700"/>
+
+### 🧠 Model Output Example
+
+<img src="https://drive.google.com/uc?export=view&id=14ajiBH9Ar9bWV7_A4NiqUOF-iUfd14yp" width="700"/>
+
+### 📉 Confusion Matrix Visualization
+
+<img src="https://drive.google.com/uc?export=view&id=1ZvBSNvXLGcD7p_6lLzYRldB8VhGJiRzO" width="700"/>
+
+---
+
+## 🧰 Requirements
+
+Create a `requirements.txt` file with the following dependencies:
+
+```
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+nltk
+```
+
+Install using:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Run the Project
+---
 
-You can run the Jupyter Notebook or Colab file:
+## ▶️ How to Run the Project
+
+1. Clone the repository or download the project folder.
+2. Install dependencies using `requirements.txt`.
+3. Run the Python script:
 
 ```bash
-jupyter notebook notebook/email_spam_detection.ipynb
+python spam_detector.py
 ```
 
-Or open it directly in **Google Colab**.
-
----
-
-## 🧹 Data Preprocessing Steps
-
-1. **Load Data** – Read CSV dataset using pandas
-2. **Clean Text** – Convert to lowercase, remove stopwords, punctuation, and extra spaces
-3. **Tokenize** – Split text into meaningful words
-4. **Vectorize** – Convert text to numerical features using TF-IDF
-5. **Train Model** – Train with Multinomial Naive Bayes
-6. **Evaluate** – Measure accuracy, precision, recall, and F1-score
-
----
-
-## 🧪 Example Test
-
-```python
-test_messages = [
-    "Congratulations! You have won a free vacation to Maldives!",
-    "Let's have lunch tomorrow at 1?"
-]
-predictions = model.predict(vectorizer.transform(test_messages))
-print(predictions)
-# Output: ['spam', 'ham']
-```
-
----
-
-## 📊 Model Performance
-
-| Metric    | Score |
-| --------- | ----- |
-| Accuracy  | 97%   |
-| Precision | 96%   |
-| Recall    | 95%   |
-| F1-Score  | 95%   |
-
----
-
-## 🎯 Future Improvements
-
-* Deploy the model using **Flask** or **Streamlit**
-* Add **real email header analysis**
-* Implement **BERT-based** transformer models
-* Enable **real-time email classification**
-
----
-
-* WordCloud of Spam vs. Ham messages
-* Confusion Matrix
-* Model Accuracy Graph
+4. The system will display metrics, confusion matrix, and visualizations.
 
 ---
 
 ## 👩‍💻 Author
 
 **Komal Kale**
-📍 Data Science & Machine Learning Enthusiast
-
-* 🔗 [GitHub Profile](https://github.com/Komalkale2)
-* 💼 [LinkedIn](https://www.linkedin.com/in/komal-kale-8abb902b4/)
-
----
-
-## 📜 License
-
-This project is licensed under the **MIT License** — you are free to use, modify, and distribute it with proper credit.
+🎓 AI & Data Science Enthusiast
+🔗 [GitHub Profile](https://github.com/Komalkale2)
+🔗 [LinkedIn](https://www.linkedin.com/in/komal-kale-8abb902b4/)
 
 ---
 
-### ⭐ If you like this project, don’t forget to star the repository!
+## ⭐ Future Scope
 
+* Deployment as a **Flask / Streamlit Web App**
+* Integration with **live email filtering APIs**
+* Experiment with **TF-IDF** and **Word Embeddings**
 
+---
+
+## 🏁 Conclusion
+
+This project demonstrates how **Machine Learning and NLP** techniques can effectively classify email messages as **Spam or Ham** with high accuracy, providing a foundation for real-world spam filtering systems.
+
+```
+
+---
+
+Would you like me to add a short **"Demo Results" section** (e.g., sample predictions of spam and ham messages) before the screenshots? It makes the README look even more professional.
+```
